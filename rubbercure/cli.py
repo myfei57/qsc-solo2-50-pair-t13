@@ -118,6 +118,7 @@ def _cmd_status(args: argparse.Namespace) -> int:
     payload = platform.status()
     payload["topology"] = platform.topology_summary()
     payload["namespaces"] = platform.namespaces.describe()
+    payload["namespace_check"] = platform.namespace_reconciliation()
     _dump(payload)
     return 0
 

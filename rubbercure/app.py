@@ -24,6 +24,7 @@ from .mold.mapping import SensorMapBook
 from .mold.registry import MoldRegistry
 from .mold.summary import summarize_molds
 from .ns.registry import NamespaceRegistry
+from .ns.reconcile import reconcile_namespace_topology
 from .ns.topology import Topology, build_default_topology
 from .press.fleet import PressFleet
 from .press.summary import summarize_fleet
@@ -520,6 +521,11 @@ class Platform:
             ),
         )
         return summary
+
+    def namespace_reconciliation(self) -> dict:
+        """开机前对查：设备登记表与工艺链路节点是否一一对应。"""
+
+        return reconcile_namespace_topology(self.namespaces, self.topology)
 
 
 def build_platform(
