@@ -54,6 +54,8 @@ def test_http_status_and_order_endpoints(platform):
         status, readiness = _request(f"{base_url}/api/readiness")
         assert status == 200
         assert len(readiness["idle_presses"]) == platform.fleet.size
+        assert readiness["topology_reconcile"]["registered_not_in_topology"] == ["cool"]
+        assert readiness["topology_reconcile"]["ok"] is False
 
         status, page = _request(f"{base_url}/")
         assert status == 200

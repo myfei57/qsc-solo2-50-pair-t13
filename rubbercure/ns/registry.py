@@ -78,7 +78,11 @@ class NamespaceRegistry:
             (entry for entry in entries if entry.area == area), key=lambda item: item.path
         )
 
-    def describe(self) -> list[dict]:
+    def entries(self) -> list[Namespace]:
+        """返回全部命名空间，按路径排序。"""
+
         with self._lock:
-            entries = sorted(self._entries.values(), key=lambda item: item.path)
-        return [entry.as_dict() for entry in entries]
+            return sorted(self._entries.values(), key=lambda item: item.path)
+
+    def describe(self) -> list[dict]:
+        return [entry.as_dict() for entry in self.entries()]

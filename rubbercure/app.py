@@ -24,6 +24,7 @@ from .mold.mapping import SensorMapBook
 from .mold.registry import MoldRegistry
 from .mold.summary import summarize_molds
 from .ns.registry import NamespaceRegistry
+from .ns.reconcile import reconcile_topology
 from .ns.topology import Topology, build_default_topology
 from .press.fleet import PressFleet
 from .press.summary import summarize_fleet
@@ -497,6 +498,11 @@ class Platform:
                 "/api/retire",
             ],
         }
+
+    def preflight_topology(self) -> dict:
+        """开机前把设备登记与工艺链路对一遍，返回对不上的地方。"""
+
+        return reconcile_topology(self.namespaces, self.topology).as_dict()
 
     def topology_summary(self) -> dict:
         """链路拓扑加上每个节点的上下游关系。"""
